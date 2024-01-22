@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("./assets/images/wallpapersden.com_abstract-shapes-4k-dark-iphone_5472x3648.jpg");
+            background-size: cover;
+            height: 100vh;
+            width: 100vw;
+            overflow-x: hidden; /* Prevents horizontal scrollbar */
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .menu-container {
+            transition: width 0.3s ease-in-out;
+        }
+
+        .history-container {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease-in-out, max-height 0.3s ease-in-out;
+        }
+
+        .history-container.show {
+            opacity: 1;
+            max-height: 200px; /* Adjust as needed */
+        }
+    </style>
+</head>
+<body class="flex">
+    <div class="w-[15vw] bg-[#00000055] border-r-2 menu-container">
+        <div class="w-full h-20 flex justify-center items-center">
+            <h1 class="font-sans text-white text-5xl top-10">Menu</h1>
+        </div>
+        <hr class="bg-white p-[1px]" />
+        <div class="w-full h-[630px]">
+            <div class="w-full h-20 flex justify-center items-center">
+                <h1 class="font-sans text-white text-3xl top-10">
+                    <a href="./index.html">Home</a>
+                </h1>
+            </div>
+            <div class="w-full h-20 flex justify-center cursor-pointer items-center">
+                <h1 class="font-sans text-white text-3xl top-10">
+                    <a href="./instructions.html">Instructions</a>
+                </h1>
+            </div>
+            <div class="w-full h-20 flex justify-center cursor-pointer items-center">
+                <h1 id="answer" class="font-sans text-white text-3xl top-10">View Answer</h1>
+            </div>
+            <div class="w-full mt-4 overflow-hidden flex justify-center items-center">
+                <h1 id="history" class="font-sans text-white text-3xl cursor-pointer top-10">History</h1>
+                <div id="historyContainer" class="history-container">
+                    <div class="p-2 text-white">
+                        <h3 class="text-lg font-bold mb-2">History:</h3>
+                        <div id="historyList" class="overflow-y-auto max-h-32">
+                            <!-- History items will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-[85vw] flex flex-col items-center">
+        <!-- Your existing game content goes here -->
+
+        <div class="w-full h-28 flex justify-center items-center">
+            <h1 class="font-sans text-5xl text-white shadow-lg shadow-stone-600">
+                Guess the number
+            </h1>
+        </div>
+   <div class="p-4 mt-3 flex justify-center items-center gap-1">
+        <div class="w-56 h-full flex justify-center items-center">
+          <h1 class="font-sans text-4xl text-white">Player name:</h1>
+        </div>
+        <div
+          class="w-56 h-12 rounded border-2 px-2 flex mr-28 justify-center bg-[#00000055] items-center"
+        >
+          <input
+            id="user_name"
+            class="outline-none w-full h-full text-xl bg-transparent text-white"
+            placeholder="Enter your name"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="flex w-full h-44 justify-center item center gap-4">
+        <div class="w-56 h-full flex justify-center items-center">
+          <h1 class="font-sans text-4xl shadow-lg text-white">
+            Set the limit :
+          </h1>
+        </div>
+        <div
+          class="h-16 w-32 flex justify-center items-center border-2 rounded bg-[#00000055] mt-14"
+        >
+          <input
+            class="h-full w-full bg-transparent px-2 text-white text-2xl"
+            id="limit_beg"
+            placeholder="Initial.."
+            type="number"
+          />
+        </div>
+        <div
+          class="h-16 w-32 flex justify-center items-center border-2 rounded bg-[#00000055] mt-14 mr-[45px]"
+        >
+          <input
+            class="h-full w-full bg-transparent px-2 text-white text-xl"
+            id="limit_end"
+            placeholder="End.."
+            type="number"
+          />
+        </div>
+      </div>
+      <div
+        class="w-[50%] h-20 border-2 flex rounded-md justify-center bg-[#00000095] items-center"
+      >
+        <h1 id="message" class="font-sans p-2 text-2xl text-white">
+          Make a guess
+        </h1>
+      </div>
+      <div class="w-full h-48 flex justify-center items-center gap-6">
+        <div
+          class="border-2 w-[260px] h-20 flex justify-center bg-[#00000055] rounded-md items-center"
+        >
+          <input
+            class="h-full outline-none bg-transparent px-4 text-center text-white text-2xl"
+            id="guessed_number"
+            placeholder="Enter your guess"
+            type="number"
+          />
+        </div>
+        <div
+          class="w-[140px] rounded-xl bg-neutral-900 border-2 h-16 bg-[#00000055] flex justify-center items-center"
+        >
+          <button id="btn" class="font-sans text-3xl text-white">Guess</button>
+        </div>
+      </div>
+      <div></div>
+    </div>
+
+    <script>
+        let limit_beg_input = document.getElementById("limit_beg");
+        let limit_end_input = document.getElementById("limit_end");
+        let message = document.getElementById("message");
+        let guessed_number_input = document.getElementById("guessed_number");
+        let btn = document.getElementById("btn");
+        let answer = document.getElementById("answer");
+        let user_name_input = document.getElementById("user_name");
+        let historyList = document.getElementById("history"); // Added for history
+
+        let count = 0;
+        let random_number;
+        let playerHistory = [];
+
+        btn.addEventListener("click", function () {
+            // Your existing game logic goes here
+             let limit_beg = parseInt(limit_beg_input.value);
+        let limit_end = parseInt(limit_end_input.value);
+        let guessed_number = parseInt(guessed_number_input.value);
+        let user_name = user_name_input.value;
+
+        if (
+          isNaN(limit_beg) ||
+          isNaN(limit_end) ||
+          isNaN(guessed_number) ||
+          user_name.trim() === ""
+        ) {
+          alert("Please enter valid values and a username");
+          return;
+        }
+
+        if (!random_number) {
+          random_number =
+            Math.floor(Math.random() * (limit_end - limit_beg + 1)) + limit_beg;
+          console.log("Initial random number is " + random_number);
+
+          limit_beg_input.disabled = true;
+          limit_end_input.disabled = true;
+          user_name_input.disabled = true;
+        }
+
+        count++;
+
+        if (guessed_number === random_number) {
+          message.innerHTML =
+            "Congratulations! " +
+            user_name +
+            " guessed the number in " +
+            count +
+            " attempts";
+
+          playerHistory.push({ name: user_name, attempts: count });
+
+          random_number = null;
+
+          limit_beg_input.disabled = false;
+          limit_end_input.disabled = false;
+          user_name_input.disabled = false;
+
+          limit_beg_input.value = "";
+          limit_end_input.value = "";
+          guessed_number_input.value = "";
+          user_name_input.value = "";
+          count = 0;
+          setTimeout(function () {
+            message.innerHTML = "Make a guessl";
+          }, 10000);
+        } else if (guessed_number > random_number) {
+          message.innerHTML = "Lower Number Please!";
+          message.innerHTML += " " + "Attempts: " + count;
+        } else {
+          message.innerHTML = "Higher Number Please!";
+          message.innerHTML += " " + "Attempts: " + count;
+        }
+        });
+
+        answer.addEventListener("click", function () {
+            // Your existing answer logic goes here
+          
+          
+        });
+
+        let isHistoryVisible = false;
+
+        historyList.addEventListener("click", function () {
+            isHistoryVisible = !isHistoryVisible;
+            if (isHistoryVisible) {
+                let historyHTML = "<h3 >History:</h3> ";
+                for (let i = 0; i < playerHistory.length; i++) {
+                    historyHTML +=
+                        "<p>" +
+                        playerHistory[i].name +
+                        "-" +
+                        playerHistory[i].attempts +
+                        " Attempts " +
+                        "</p>";
+                }
+                historyList.innerHTML = historyHTML;
+            } else {
+                historyList.innerHTML = "History";
+            }
+        });
+    </script>
+</body>
+</html>

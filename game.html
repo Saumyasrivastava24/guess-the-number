@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+    <style>
+      body {
+        background-image: url("./assets/images/wallpapersden.com_abstract-shapes-4k-dark-iphone_5472x3648.jpg");
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
+         overflow-x: hidden; 
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+        
+      
+    </style>
+  </head>
+  <body class="flex">
+    <div class="w-[15vw] bg-[#00000055] border-r-2">
+      <div class="w-full h-20 flex justify-center items-center">
+        <h1 class="font-sans text-white text-5xl top-10">Menu</h1>
+      </div>
+      <hr class="bg-white p-[1px]" />
+      <div class="w-full h-[630px]">
+        <div class="w-full h-20 flex justify-center items-center">
+          <h1 class="font-sans text-white text-3xl top-10">
+            <a href="./index.html">Home</a>
+          </h1>
+        </div>
+        <div class="w-full h-20 flex justify-center cursor-pointer items-center">
+          <h1 class="font-sans text-white text-3xl top-10">
+            <a href="./instructions.html">Instructions</a>
+          </h1>
+        </div>
+        <div class="w-full h-20 flex justify-center cursor-pointer items-center">
+          <h1 id="answer" class="font-sans text-white text-3xl  top-10">View Answer</h1>
+        </div>
+        <div class="w-full mt-4 overflow-hidden flex justify-center items-center ">
+          <h1 id="history" class="font-sans text-white text-3xl cursor-pointer top-10">History</h1>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="w-[85vw] flex flex-col items-center">
+      <div class="w-full h-28 flex justify-center  items-center">
+        <h1 class="font-sans text-5xl text-white shadow-lg shadow-stone-600">
+          Guess the number
+        </h1>
+      </div>
+      <div class="p-4 mt-3 flex justify-center items-center gap-1">
+       <div class="w-56  h-full flex justify-center  items-center ">
+          <h1 class="font-sans text-4xl text-white">Player name:</h1>
+        </div>
+        <div class="w-56 h-12 rounded border-2 px-2 flex mr-28 justify-center bg-[#00000055] items-center">
+          <input id="user_name" class="outline-none w-full h-full  text-xl bg-transparent text-white"  placeholder="Enter your name" type="text">
+        </div>
+      </div>
+      <div class="flex w-full h-44 justify-center item center gap-4">
+        <div class="w-56 h-full flex justify-center items-center">
+          <h1 class="font-sans text-4xl shadow-lg text-white">
+            Set the limit :
+          </h1>
+        </div>
+        <div
+          class="h-16 w-32 flex justify-center items-center border-2 rounded bg-[#00000055] mt-14"
+        >
+          <input
+            class="h-full w-full bg-transparent px-2 text-white text-2xl"
+            id="limit_beg"
+            placeholder="Initial.."
+            type="number"
+          />
+        </div>
+        <div
+          class="h-16 w-32 flex justify-center items-center border-2 rounded bg-[#00000055] mt-14 mr-[45px]"
+        >
+          <input
+            class="h-full w-full bg-transparent px-2 text-white text-xl"
+            id="limit_end"
+            placeholder="End.."
+            type="number"
+          />
+        </div>
+      </div>
+      <div
+        class="w-[50%] h-20 border-2 flex rounded-md justify-center bg-[#00000095] items-center"
+      >
+        <h1 id="message" class="font-sans p-2  text-2xl text-white">Make a guess</h1>
+      </div>
+      <div class="w-full h-48 flex justify-center items-center gap-6">
+        <div
+          class="border-2 w-[260px] h-20 flex justify-center bg-[#00000055] rounded-md items-center"
+        >
+          <input
+            class="h-full outline-none bg-transparent px-4  text-center text-white text-2xl"
+            id="guessed_number"
+            placeholder="Enter your guess"
+            type="number"
+          />
+        </div>
+        <div
+          class="w-[140px] rounded-xl bg-neutral-900 border-2 h-16 bg-[#00000055] flex justify-center items-center"
+        >
+          <button id="btn" class="font-sans text-3xl text-white">
+           Guess
+          </button>
+        </div>
+      </div>
+      <div></div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
